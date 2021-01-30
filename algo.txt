@@ -1,0 +1,11 @@
+we nid to 1 function for 4pizza
+1function for 3pizza
+1 func for 2 pizza
+
+condition nt prioritize 4
+1. 1+2+3+4 == 1+2+3 (go 3)
+2. if total - 4 == 1 or 0(go 3)
+
+condition nt prioritize 3
+1.1+2+3 == 1+2 (go 2)
+2. if total - 3 == 1 or 0 (go 2)
