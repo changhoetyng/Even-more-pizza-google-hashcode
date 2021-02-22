@@ -1,150 +1,138 @@
-# def readFiles():
-#   with open('C:/Users/Jason/Desktop/Hashcode/b_little_bit_of_everything.in') as f:
-#     mylist = [line.rstrip('\n') for line in f]
-#
-#   firstLine = mylist[0].split(" ")
-#   a = mylist[1].split(" ")
-#   b = mylist[2].split(" ")
-#
-#   print(a)
-#   print(b)
-#   counter = 0
-#   if int(a[0]) < int(b[0]):
-#       temp = a
-#       a = b
-#       b = temp
-#   counter = int(a[0]) + int(b[0])
-#   for i, x in enumerate(a):
-#     if i == 0:
-#       continue
-#     for j, x in enumerate(b):
-#       if j == 0:
-#         continue
-#       if a[i]==b[j]:
-#         counter-=1
-#   print(counter)
-# readFiles()
-output = []
+import sys
+
+with open('Input_Files/e_many_teams.in', 'r') as f:
+    content = f.readlines()
+    ingredients = []
+    noPizza, t2, t3, t4 = [int(x) for x in content[0].split()]
+    pizzaList = []
+    for x in range(1, noPizza + 1):
+        tempContent = content[x]
+        seperatedPizzaLineContent = tempContent.split()
+        del seperatedPizzaLineContent[0]
+        for ingredient in seperatedPizzaLineContent:
+            if ingredient not in ingredients:
+                ingredients.append(ingredient)
+        pizzaList.append(tempContent)
+    maxIngredientNumber = len(ingredients)
+    lines = [x for x in range(0, noPizza)]
+
+outArr2 = []
+outArr3 = []
+outArr4 = []
 
 
-def checkServedPizza(checkMostIngredient,servedPizza,mostIngredient,mylist):
-  for served in servedPizza:
-    if checkMostIngredient == served:
-      return False
-    if mostIngredient == int(mylist[checkMostIngredient].split(" ")[0]):
-      return False
+def loop(numberOfPizza):
+    selectedIngredient = ""
+    for _ in range(numberOfPizza):
+        maxLine = -1
+        uniqueIngredient = -1
+        if selectedIngredient.count(" ") < maxIngredientNumber:
+            # In search for the most ingredients
+            print("line start by max")
+            for pizzaLineNumber, pizzaLineContent in enumerate(pizzaList):
+                seperatedPizzaLineContent = pizzaLineContent.split()
+                del seperatedPizzaLineContent[0]
 
-  return True
+                score = 0
 
-
-def loop():
-    with open('b_little_bit_of_everything.in') as f:
-      mylist = [line.rstrip('\n') for line in f]
-
-    firstLine = mylist[0].split(" ")
-
-    totalPizza = int(firstLine[0])
-    p2 = int(firstLine[1])
-    p3 = int(firstLine[2])
-    p4 = int(firstLine[3])
-
-    # lineCounter = 1
-    fixCounter = 1
-    # totalPizza+=1
-    swap = False
-    maxIngredient = 0
-
-
-
-    #pizza that are already served (BY ROW)
-    servedPizza=[]
-
-    #Store ouput
-    maxIngredientLine=[]
-    # LOOP 1.0 
-    for x in range(2):
-
-        # Line with most ingredient
-        mostIngredientLine = -1
-
-        # Number of most ingredient
-        mostIngredient = -1
-
-        lineCounter = 1
-        checkMostIngredient = 1
-
-        
-        # LOOP CHECK IF PIZZA IS SERVED
-        for x in range(totalPizza):
-          breakBool = False
-          for served in servedPizza:
-              if x == served:
-                breakBool = True
-
-          if x==0 or breakBool == True:
-              continue
-        
-        # FIND MOST INGREDIENT IN FILE
-        # LAST 2 VAR
-          if mostIngredient < int(mylist[checkMostIngredient].split(" ")[0]) and checkServedPizza(checkMostIngredient,servedPizza,mostIngredient,mylist):
-              mostIngredientLine = checkMostIngredient
-              mostIngredient = int(mylist[checkMostIngredient].split(" ")[0])
-          checkMostIngredient+=1
-        # LOOP 1.1
-        for x in range(totalPizza):
-            fixLine = mylist[mostIngredientLine].split(" ")
-            compareLine = mylist[lineCounter].split(" ")
-            #swapLine
-            if int(fixLine[0]) < int(compareLine[0]):
-                temp = fixLine
-                fixLine = compareLine
-                compareLine = temp
-                swap = True
-            #calculate total ingredients
-            counter = int(fixLine[0]) + int(compareLine[0])
-
-            #calculate diff ingredients for 2 pizza
-            for i, x in enumerate(fixLine):
-                if i == 0:
-                    continue
-                for j, x in enumerate(compareLine):
-                    if j == 0:
-                        continue
-                    if fixLine[i]==compareLine[j]:
-                        counter-=1
+                for ingredient in seperatedPizzaLineContent:
+                    if selectedIngredient.find(ingredient) == -1:
+                        score += 1
+                if uniqueIngredient < score:
+                    uniqueIngredient = score
+                    maxLine = pizzaLineNumber
+            exec("outArr" + str(numberOfPizza) + "." +
+                 "append(lines[maxLine])")
+            a = pizzaList[maxLine].split()
+            del a[0]
+            for ingredient in a:
+              if selectedIngredient.find(ingredient) == -1:
+                  selectedIngredient += (ingredient + " ")
+            del lines[maxLine]
+            del pizzaList[maxLine]
+            print("line start by max")
             
-            if counter > maxIngredient:
-                temp = counter
-                counter = maxIngredient
-                maxIngredient = temp
-                maxLine = fixCounter + lineCounter
 
-          # SWAP LARGER LINES WITH SMALLER LINES
-            if swap == True:
-                temp = fixLine
-                fixLine = compareLine
-                compareLine = temp
-                swap = False
-            lineCounter+=1
-      
-        maxIngredientLine.append(4)
-        maxIngredientLine.append(mostIngredientLine)
-        maxIngredientLine.append(maxLine)
-        servedPizza.append(mostIngredientLine)
-        servedPizza.append(maxLine)
-        print(servedPizza)
-        p4-=1
-        print(maxIngredientLine)
-        print(p4)
+        else:
+            print("line start by min")
+            min = sys.maxsize
+            line = -1
+            for pizzaLineNumber, pizzaLineContent in enumerate(pizzaList):
+                seperatedPizzaLineContent = pizzaLineContent.split()
+                if min > int(seperatedPizzaLineContent[0]):
+                    min = int(seperatedPizzaLineContent[0])
+                    line = pizzaLineNumber
+            exec("outArr" + str(numberOfPizza) + "." + "append(lines[line])")
+            del lines[line]
+            del pizzaList[line]
+            print("line done by min")
 
 
+def assignPizza():
+    totalPizza = noPizza
+    global t2, t3, t4
+    while totalPizza > 0:
+      if totalPizza == 4 and t4 > 0:
+        loop(4)
+        totalPizza = totalPizza - 4
+        t4-=1
+      elif (totalPizza == 5 or totalPizza == 3) and (t3>0):
+        loop(3)
+        totalPizza = totalPizza - 3
+        t3-=1
+      elif (totalPizza == 2 or totalPizza ==4)and (t2 > 0):
+        loop(2)
+        totalPizza = totalPizza - 2
+        t2-=1
+      elif (t4>0 and totalPizza >= 4) :
+        loop(4)
+        totalPizza = totalPizza - 4
+        t4-=1
+      elif (t3>0 and totalPizza >= 3):
+        loop(3)
+        totalPizza = totalPizza - 3
+        t3-=1
+      elif (t2>0 and totalPizza >= 2):
+        loop(2)
+        totalPizza = totalPizza - 2
+        t2-=1
+      else:
+        break
 
 
-# def swapLine():
-#     if int(fixLine[0]) < int(compareLine[0]):
-#         temp = fixLine
-#         fixLine = compareLine
-#         compareLine = fixLine
-#         swap = True
+def printOutput():
+    f = open("C:/Users/mohdb/Desktop/google hashcode/e_many_teams.txt", "w")
+    f.write(
+        str(int((len(outArr4) / 4) + (len(outArr3) / 3) + (len(outArr2) / 2))))
+    f.write("\n")
+    while len(outArr4) >= 4:
+        f.write("4 ")
+        for _ in range(4):
+            f.write(str(outArr4[0]) + " ")
+            outArr4.pop(0)
+        f.write("\n")
 
-loop()
+    while len(outArr3) >= 3:
+        f.write("3 ")
+        for _ in range(3):
+            f.write(str(outArr3[0]) + " ")
+            outArr3.pop(0)
+        f.write("\n")
+
+    while len(outArr2) >= 2:
+        f.write("2 ")
+        for _ in range(2):
+            f.write(str(outArr2[0]) + " ")
+            outArr2.pop(0)
+        f.write("\n")
+
+    f.close()
+
+
+assignPizza()
+printOutput()
+
+# loop(4)
+# print(outArr2)
+# print(outArr3)
+# print(outArr4)
