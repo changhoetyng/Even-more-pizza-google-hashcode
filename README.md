@@ -1,4 +1,4 @@
-# Hash Code practice problem 2021
+# Hash Code Practice Problem 2021
 [Problem Statement](https://bytefreaks.net/google/hash-code/google-hash-code-2021-practice-problem)
 
 
@@ -15,8 +15,8 @@
 ### Scores
 Total score 722,240,461 points.
 
-A - Example: 65 points
-B - A little bit of everything: 10,697 points
-C - Many ingredients: 703,932,664 points
-D - Many pizzas: 7,685,310 points
+A - Example: 65 points \
+B - A little bit of everything: 10,697 points \
+C - Many ingredients: 703,932,664 points \
+D - Many pizzas: 7,685,310 points \
 E - Many teams: 10,611,725 points
